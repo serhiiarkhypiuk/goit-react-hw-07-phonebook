@@ -1,5 +1,5 @@
 import { createAction } from "@reduxjs/toolkit";
 
-const filter = createAction("filter");
+const filterContact = createAction("filter");
 
-export default filter;
+export default filterContact;

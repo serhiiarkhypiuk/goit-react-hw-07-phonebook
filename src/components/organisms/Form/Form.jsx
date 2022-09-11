@@ -1,17 +1,14 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Button from 'components/atoms/Button/Button';
 import Input from 'components/atoms/Input/Input';
 import Title from 'components/atoms/Title/Title';
 import { StyledForm } from './Form.styled';
-import { nanoid } from 'nanoid';
-import { useLocaleStorage } from '../../../hooks/useLocalStorage';
-import { useDispatch } from "react-redux";
-import { create } from '../../../redux/phoneBookActions'
+import {useCreateContactMutation} from "../../../redux/phoneBookSlice";
 
-const ContactForm = ({ onSubmit }) => {
-  const [name, setName] = useLocaleStorage('name', '');
-  const [number, setNumber] = useLocaleStorage('number', '');
-  const dispatch = useDispatch();
+const ContactForm = () => {
+  const [name, setName] = useState( '');
+  const [number, setNumber] = useState('');
+  const [createContact] = useCreateContactMutation();
 
   const onChange = event => {
     const { name, value } = event.target;
@@ -31,9 +28,12 @@ const ContactForm = ({ onSubmit }) => {
   const handleAddContact = event => {
     event.preventDefault();
 
-    const contact = { id: 'id-' + nanoid(2), name, number };
-    dispatch(create(contact));
+    const contactContent = {
+      name,
+      number,
+    };
 
+    createContact(contactContent);
     resetContactForm();
   };
 
